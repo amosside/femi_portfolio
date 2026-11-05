@@ -9,7 +9,7 @@ const AboutSection = () => {
   return (
     <Layout className=" h-full  overflow-y-scroll">
       <Content className="w-full p-4">
-        <section className="flex flex-col md:flex-row items-center justify-between md:px-16 py-12 bg-white text-gray-800 mt-6 gap-x-8">
+        <section className="flex flex-col md:flex-row items-center justify-between md:px-16 py-10 bg-white text-gray-800 mt-6 gap-x-8">
           {/* Left Side - Text Content */}
           <div className="w-full p-4 md:w-1/2 mb-8 md:mb-0">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
