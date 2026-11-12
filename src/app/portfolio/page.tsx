@@ -6,7 +6,6 @@ import {
   ArrowRightOutlined,
   GithubOutlined,
   LinkedinOutlined,
-  PlayCircleOutlined,
 } from "@ant-design/icons";
 import Loading from "@/loading/loading";
 import { useRouter } from "next/navigation";

@@ -20,7 +20,7 @@ export default function Projects() {
        
 
         <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
-          A selection of digital products and applications I've worked on,
+          A selection of digital products and applications I have worked on,
           combining thoughtful design, modern technologies, and practical
           solutions to real-world problems.
         </p>
