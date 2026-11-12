@@ -1,31 +1,26 @@
 "use client";
 
-import Navbar from "../app/components/navbar";
+import Topbar from "../app/components/topbar";
 import Footer from "../app/components/footer";
-import Sidebar from "../app/components/sidebar"; 
 import GlobalRouteLoader from "./components/global-route-loader";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col bg-slate-200">
+      {/* Floating Topbar */}
+      <Topbar />
 
-      <Navbar />
+      {/* Main Content */}
+      <main className="flex-grow pt-20 lg:p-6 lg:pt-20 md:p-4 md:pt-20 p-0 bg-slate-200">
+        <GlobalRouteLoader />
+        {children}
+      </main>
 
-      {/* Main Layout: Sidebar + Content */}
-      <div className="flex flex-grow">
-        {/* Sidebar for Large Screens */}
-        <div className="hidden md:block md:w-64">
-          <Sidebar />
-        </div>
-
-        {/* Main Content */}
-        <main className="flex-grow lg:p-6 md:p-2 p-0 ">
-          <GlobalRouteLoader/>
-          {children}
-          </main>
-      </div>
-
-      {/* Footer (Spans Full Width) */}
+      {/* Footer */}
       <Footer />
     </div>
   );

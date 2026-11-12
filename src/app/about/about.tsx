@@ -7,9 +7,9 @@ const { Content } = Layout;
 
 const AboutSection = () => {
   return (
-    <Layout className=" h-full  overflow-y-scroll">
-      <Content className="w-full p-4">
-        <section className="flex flex-col md:flex-row items-center justify-between md:px-16 py-10 bg-white text-gray-800 mt-6 gap-x-8">
+    <Layout className=" h-full  overflow-y-scroll bg-slate-200 ">
+      <Content className="w-full p-4 bg-slate-200">
+        <section className="flex flex-col md:flex-row items-center bg-slate-200 justify-between md:px-16 py-10  text-gray-800 mt-6 gap-x-8">
           {/* Left Side - Text Content */}
           <div className="w-full p-4 md:w-1/2 mb-8 md:mb-0">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
@@ -19,10 +19,8 @@ const AboutSection = () => {
             </p>
             <div className="my-8">
               <p className="text-base md:text-lg my-8 text-pretty font-lusitana">
-              Hey there!I am a passionate frontend developer specializing in building intuitive
-                and responsive web applications. I am also a Technical Support Specialist and Customer Support Representative
-              with over three years of experience helping users 
-              and solving tech challenges. 
+              Hey there! I am a software developer specializing in building intuitive
+                and responsive web applications for solving your business challenges. 
                  Problem-solving, clear communication, and creating great user experiences are what I do best.
                   Whether it is fixing an issue or building something new,
                    I am all about making things work smoothly for people.

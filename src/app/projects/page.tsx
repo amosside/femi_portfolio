@@ -1,158 +1,192 @@
+
 "use client";
+
 import { useState } from "react";
-import { Layout, Button } from "antd";
-import { motion } from "framer-motion";
-import LazyVideo from "../components/lazyvideo";
-import { BugOutlined } from "@ant-design/icons";
+import { motion, AnimatePresence } from "framer-motion";
+import { BugOutlined, GlobalOutlined } from "@ant-design/icons";
 import Link from "next/link";
-
-const projects = [
-  {
-    id: 1,
-    title: "ModeOne Group",
-    video: "/cmp.mp4",
-    description:
-      "Developed using HTML5, CSS3, Bootstrap, JavaScript, and jQuery, ensuring a responsive and visually appealing design. This site features a modern layout with smooth animations, interactive elements, and optimized performance for an intuitive user experience. Leveraging Bootstrap's grid system. The site is structured with clean, maintainable code, enhancing both functionality and scalability.",
-    poster: "/lazyload.jpg",
-    url: "https://www.modeonegroup.com",
-  },
-  {
-    id: 2,
-    title: "Company E-commerce Web app",
-    video: "/etcon.mp4",
-    description:
-      "This company E-commerce web app was built for ETICON ENERGY, a company that sells energy producing equipments and support items. The app was built using Next.js and Tailwind CSS, focusing on a clean, modern UI and a responsive layout optimized for performance across devices. The site highlights Qollabs’ innovation-driven services with smooth user interactions, scalable components, and well-structured content. I prioritized speed, accessibility, and a developer-friendly codebase to ensure long-term maintainability.",
-    poster: "/eticon.jpg",
-    url: "https://www.eticonenergy.com",
-  },
-
-  {
-    id: 3,
-    title: "Multi-layout E-commerce web app",
-    video: "/shpx.mp4",
-    description:
-      "  A multi-layer e-commerce web app built as ready-to-use e-commerce templates for businesses. Stack is Next.js, Tailwind CSS, ant design components, Redux and other dependencies. ",
-    poster: "/shppax.jpg",
-    url: "https://www.shoppax.vercel.app",
-  },
-
-  {
-    id: 4,
-    title: "Zuojoff",
-    video: "/zuojoff.mp4",
-    description:
-      "I developed zuojoffservices.com for Zuojoff Nigeria Limited, creating a sleek, responsive business website that effectively showcases the services offered by the company. The site was built using HTML, CSS, JavaScript, jQuery, and Bootstrap, ensuring a clean, mobile-friendly user interface with smooth interactions. I focused on performance optimization, intuitive navigation, and brand consistency, while also applying best practices in SEO and accessibility to enhance user engagement.    .",
-    poster: "/lazyload.jpg",
-    url: "https://www.zuojoffservices.com",
-  },
-];
-
-const { Content } = Layout;
+import LazyVideo from "../components/lazyvideo";
+import { projects } from "./components/projectsData";
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(projects[0]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const projectsPerPage = 3;
-
-  const totalPages = Math.ceil(projects.length / projectsPerPage);
-  const visibleProjects = projects.slice(
-    currentPage * projectsPerPage,
-    (currentPage + 1) * projectsPerPage
-  );
-
-  const nextPage = () =>
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
-  const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
 
   return (
-    <Layout className="h-full overflow-y-scroll">
-      <Content className="w-full p-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 p-6 max-w-6xl mx-auto mt-6 py-12 md:px-16">
-          {/* Left Column */}
-          <div className="col-span-1 space-y-4 h-full overflow-y-hidden mx-auto">
-            <motion.div
-              key={currentPage} // Triggers re-animation
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4"
-            >
-              {visibleProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedProject(project)}
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                  <video
-                    src={project.video}
-                    className="w-full h-full object-cover rounded-lg"
-                    muted
-                  />
-                  <p className="mt-2 text-sm text-center">{project.title}</p>
-                  <div className="flex justify-center ">
-                  <Link
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 text-sm !text-center !text-black/70"
-                  >
-                    {project.url}
-                  </Link>
+    <section className="min-h-screen bg-slate-200 text-gray-800 px-4 sm:px-6 py-16">
+      {/* Header */}
+      <div className="max-w-6xl mx-auto text-center mb-12">
+       
+
+       
+
+        <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+          A selection of digital products and applications I've worked on,
+          combining thoughtful design, modern technologies, and practical
+          solutions to real-world problems.
+        </p>
+      </div>
+
+      {/* Projects Layout */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        {/* Project Selector */}
+        <div className="lg:col-span-4 space-y-3">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="font-bold text-lg">Selected Work</h3>
+            <span className="text-sm text-gray-500">
+              {projects.length} Projects
+            </span>
+          </div>
+
+          {projects.map((project, index) => {
+            const isSelected = selectedProject.id === project.id;
+
+            return (
+              <motion.button
+                key={project.id}
+                type="button"
+                onClick={() => setSelectedProject(project)}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                className={`w-full text-left p-4 rounded-xl border transition-all duration-300 ${
+                  isSelected
+                    ? "bg-blue-500 text-white border-blue-500 "
+                    : "bg-gray-100 border-transparent hover:border-gray-300 hover:bg-white"
+                }`}
+                aria-pressed={isSelected}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p
+                      className={`text-xs mb-1 ${
+                        isSelected ? "text-gray-100" : "text-gray-500"
+                      }`}
+                    >
+                      Project {String(index + 1).padStart(2, "0")}
+                    </p>
+
+                    <h4 className="font-semibold text-base">
+                      {project.title}
+                    </h4>
                   </div>
-                
-                </motion.div>
-              ))}
-            </motion.div>
 
-            {/* Pagination Buttons */}
-            <div className="flex justify-between mt-4">
-              {currentPage > 0 && (
-                <Button
-                  onClick={prevPage}
-                  className="bg-gray-800 text-white px-4 py-2 rounded-md"
-                >
-                  Back
-                </Button>
-              )}
-              {currentPage < totalPages - 1 && (
-                <Button
-                  onClick={nextPage}
-                  className="bg-gray-800 text-white px-4 py-2 rounded-md"
-                >
-                  Next
-                </Button>
-              )}
-            </div>
-          </div>
+                  <span
+                    className={`text-xl transition-transform ${
+                      isSelected ? "translate-x-1" : ""
+                    }`}
+                  >
+                    →
+                  </span>
+                </div>
+              </motion.button>
+            );
+          })}
+        </div>
 
-          {/* Right Column */}
-          <div className="col-span-2 flex flex-col items-center my-14">
-            <LazyVideo
+        {/* Project Details */}
+        <div className="lg:col-span-8">
+          <AnimatePresence mode="wait">
+            <motion.div
               key={selectedProject.id}
-              src={selectedProject.video}
-              poster={selectedProject.poster}
-              autoPlay
-            />
-            <p className="mt-4 text-lg font-semibold">
-              {selectedProject.title}
-            </p>
-            <p className="text-gray-600">{selectedProject.description}</p>
-          </div>
-        </div>
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35 }}
+              className="bg-gray-100 rounded-2xl overflow-hidden shadow-lg"
+            >
+              {/* Project Preview */}
+              <div className="relative w-full aspect-video bg-gray-900 overflow-hidden">
+                {selectedProject.video ? (
+                  <LazyVideo
+                    key={selectedProject.id}
+                    src={selectedProject.video}
+                    poster={selectedProject.poster}
+                    autoPlay
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full bg-cover bg-center flex items-center justify-center"
+                    style={{
+                      backgroundImage: `linear-gradient(rgba(15,23,42,0.55), rgba(15,23,42,0.75)), url('${selectedProject.poster}')`,
+                    }}
+                  >
+                    <div className="text-center text-white px-4">
+                      <p className="text-xs tracking-[0.25em] uppercase mb-3 text-gray-300">
+                        Featured Project
+                      </p>
+                      <h3 className="text-3xl sm:text-4xl font-bold">
+                        {selectedProject.title}
+                      </h3>
+                    </div>
+                  </div>
+                )}
+              </div>
 
-        <div className="flex justify-center mt-6">
-          <a
-            href="/skills"
-            className="inline-block text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition"
-          >
-            <BugOutlined className="mx-2" /> Here are some of the languages and
-            tools I used to create this
-          </a>
+              {/* Project Information */}
+              <div className="p-5 sm:p-8">
+                <div className="flex flex-wrap justify-between items-center gap-3 mb-5">
+                  <div>
+                    <span className="text-blue-500 text-xs font-normal uppercase tracking-widest">
+                      Project Overview
+                    </span>
+
+                    <h3 className="text-2xl sm:text-3xl font-bold mt-2">
+                      {selectedProject.title}
+                    </h3>
+                  </div>
+
+                  {selectedProject.url && (
+                    <Link
+                      href={selectedProject.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-blue-500 text-white px-5 py-3 rounded-lg text-sm font-semibold hover:bg-blue-600 transition-colors"
+                    >
+                      <GlobalOutlined />
+                      Visit Project
+                    </Link>
+                  )}
+                </div>
+
+                <p className="text-gray-600 leading-7 text-sm sm:text-base">
+                  {selectedProject.description}
+                </p>
+
+                {/* Technology Stack */}
+                <div className="mt-8">
+                  <h4 className="font-bold text-sm uppercase tracking-wider mb-4">
+                    Technologies Used
+                  </h4>
+
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.stack.map((technology) => (
+                      <span
+                        key={technology}
+                        className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs sm:text-sm font-medium text-gray-700 shadow-sm"
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </Content>
-    </Layout>
+      </div>
+
+      {/* Skills CTA */}
+      <div className="flex justify-center mt-14">
+        <Link
+          href="/skills"
+          className="inline-flex items-center gap-3 text-blue-700 px-6 py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-gray-100 transition"
+        >
+          <BugOutlined />
+          Explore My Tech Stack & Expertise
+        </Link>
+      </div>
+    </section>
   );
 }

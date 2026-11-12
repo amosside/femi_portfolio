@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -7,77 +8,79 @@ interface LoadingProps {
   setIsLoading: (value: boolean) => void;
 }
 
+const name = 'FEMI ORIODOFE';
+
 export default function Loading({ setIsLoading }: LoadingProps) {
-  const logoRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (logoRef.current) {
-      const bars = logoRef.current.querySelectorAll('.logo-bar');
-      gsap.from(bars, {
-        opacity: 0,
-        x: -100, // Bars start from the left
-        stagger: 0.2, // Stagger the appearance of each bar
-        duration: 1,
-        delay: 1, 
+    const letters = nameRef.current?.querySelectorAll('.name-letter');
+
+    if (!loaderRef.current || !letters?.length) return;
+
+    const ctx = gsap.context(() => {
+      const timeline = gsap.timeline({
         onComplete: () => {
-          // Simulate loading completion after the logo is formed
-          gsap.set(logoRef.current, { scale: 1 }); // Reset the scale to 1 before zooming in
-          gsap.to(logoRef.current, {
-            scale: 3, // Zoom in effect
-            opacity: 0, // Fade out
-            duration: 1, // Duration of the zoom effect
-            onComplete: () => {
-              setIsLoading(false); // End the loading animation after zooming
-            },
-          });
+          setIsLoading(false);
         },
       });
-    }
+
+      timeline.fromTo(
+        letters,
+        {
+          opacity: 0,
+          y: 15,
+          filter: 'blur(8px)',
+        },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.35,
+          stagger: 0.12,
+          ease: 'power2.out',
+        }
+      );
+
+      // Brief pause after the name is completely written
+      timeline.to({}, { duration: 0.6 });
+
+      // Fade out the completed loader
+      timeline.to(loaderRef.current, {
+        opacity: 0,
+        duration: 0.7,
+        ease: 'power2.inOut',
+      });
+    }, loaderRef);
+
+    return () => ctx.revert();
   }, [setIsLoading]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-      {/* Logo */}
+    <div
+      ref={loaderRef}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
+    >
       <div
-        ref={logoRef}
-        className="absolute flex items-center justify-center z-40 space-x-12"
+        ref={nameRef}
+        className="flex items-center justify-center px-4"
       >
-        
- 
-{/* Top horizontal blue bar */}
-<div
-  className="logo-bar h-2 lg:w-16 md:w-14 w-12 rounded-lg bg-blue-600"
-  // style={{ background: 'linear-gradient(to right, #2563eb, #334155)' }}
-></div>
-
-{/* First vertical bar (largest, dark gray) */}
-<div
-  className="logo-bar lg:h-44 md:h-36 h-32 lg:w-8 md:w-6 w-4 rounded-full"
-  style={{ background: 'linear-gradient(to right, #334155, #334155)' }}
-></div>
-
-{/* Second vertical bar (medium size, dark gray) */}
-<div
-  className="logo-bar lg:h-28 md:h-24 h-20 lg:w-6 md:w-4 w-3 rounded-full"
-  style={{ background: 'linear-gradient(to right, #334155, #334155)' }}
-></div>
-
-{/* Third vertical bar (smallest, dark gray) */}
-<div
-  className="logo-bar lg:h-20 md:h-16 h-14 md:w-4 w-2 rounded-full"
-  style={{ background: 'linear-gradient(to right, #334155, #334155)' }}
-></div>
-
-{/* Bottom horizontal blue bar */}
-<div
-  className="logo-bar h-2 lg:w-16 md:w-14 w-12 rounded-lg bg-blue-600"
-  // style={{ background: 'linear-gradient(to right, #2563eb, #334155)' }}
-></div>
-
-
-
-
-
+        <h1 className="flex flex-wrap justify-center text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light tracking-[0.12em] text-white">
+          {name.split('').map((letter, index) => (
+            <span
+              key={index}
+              className={`name-letter inline-block ${
+                letter === ' ' ? 'w-3 sm:w-5 md:w-6' : ''
+              }`}
+              style={{
+                opacity: 0,
+              }}
+            >
+              {letter === ' ' ? '\u00A0' : letter}
+            </span>
+          ))}
+        </h1>
       </div>
     </div>
   );
